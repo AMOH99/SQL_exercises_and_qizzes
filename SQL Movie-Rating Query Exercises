@@ -1,5 +1,59 @@
---Find the titles of all movies directed by Steven Spielberg.
+-- 1.Find the titles of all movies directed by Steven Spielberg.
 
-select title
-from movie
-where director = 'Steven Spielberg';
+SELECT title
+FROM movie
+WHERE director = 'Steven Spielberg';
+
+-- 2. Find all years that have a movie that received a rating of 4 or 5, and sort them in increasing order
+
+select distinct movie.year as years
+from Movie 
+INNER JOIN  Rating
+ ON Movie.mID = Rating.mID
+Where Rating.stars >= 4
+order by years asc;
+
+-- 3. Find the titles of all movies that have no ratings.
+
+select Movie.title
+from Movie 
+LEFT OUTER JOIN Rating
+ ON  Movie.mID = Rating.mID
+WHERE Rating.stars is NULL
+
+-- 4. Some reviewers didn't provide a date with their rating. Find the names of all reviewers who have ratings with a NULL value for the date
+
+SELECT Reviewer.name
+from Reviewer 
+LEFT OUTER JOIN Rating
+ ON Reviewer.rID = Rating.rID
+Where Rating.ratingDate is NULL
+
+-- 5. Write a query to return the ratings data in a more readable format: reviewer name, movie title, stars, and ratingDate
+
+WITH Ratingsdata AS (
+	SELECT rating.stars as ratings_stars,
+	       movie.title as movie_title,
+	       rating.ratingDate as rating_date,
+           Rating.rID as rID
+	from Movie
+      LEFT OUTER JOIN Rating
+	 ON Movie.mID = Rating.mID)
+SELECT Reviewer.Name,
+       movie_title,
+	   ratings_stars,
+	   rating_Date
+FROM Reviewer
+LEFT OUTER JOIN Ratingsdata
+ON Reviewer.rID = Ratingsdata.rID
+ORDER BY Reviewer.Name, Movie_title, ratings_stars;
+
+-- 6. For all cases where the same reviewer rated the same movie twice and gave it a higher rating the second time, return the reviewer's name and the title of the movie
+
+SELECT Reviewer.name, 
+       Movie.title
+FROM Movie
+INNER JOIN Rating R USING(mId)
+INNER JOIN Rating R1 USING(rId, mId)
+INNER JOIN Reviewer USING(rId)
+WHERE R.ratingDate < R1.ratingDate AND R.stars < R1.stars;
