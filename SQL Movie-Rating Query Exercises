@@ -68,3 +68,13 @@ INNER JOIN Rating R USING(mId)
 INNER JOIN Rating R1 USING(rId, mId)
 INNER JOIN Reviewer USING(rId)
 WHERE R.ratingDate < R1.ratingDate AND R.stars < R1.stars;
+
+-- 7. For each movie that has at least one rating, find the highest number of stars that movie received. Return the movie title and number of stars. Sort by movie title
+
+select movie.title,
+       MAX(Rating.stars) Number_of_stars
+FROM Rating 
+LEFT OUTER JOIN Movie
+ ON Rating.mID = Movie.mID
+ WHERE Rating.stars >= 1
+ GROUP BY Movie.title;
