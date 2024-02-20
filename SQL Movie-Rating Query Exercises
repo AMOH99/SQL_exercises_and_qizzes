@@ -78,3 +78,13 @@ LEFT OUTER JOIN Movie
  ON Rating.mID = Movie.mID
  WHERE Rating.stars >= 1
  GROUP BY Movie.title;
+
+-- 8. For each movie, return the title and the 'rating spread', that is, the difference between highest and lowest ratings given to that movie. Sort by rating spread from highest to lowest, then by movie title.
+
+SELECT Movie.title,
+      (MAX(Rating.stars) - MIN(Rating.stars)) AS rating_spread
+FROM Rating
+INNER JOIN Movie
+ ON Rating.mID = Movie.mID
+GROUP BY Movie.title							   
+ORDER BY MAX(Rating.stars) - MIN(Rating.stars) desc, Movie.title;
