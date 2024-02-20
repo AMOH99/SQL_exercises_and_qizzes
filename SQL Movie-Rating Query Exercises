@@ -88,3 +88,20 @@ INNER JOIN Movie
  ON Rating.mID = Movie.mID
 GROUP BY Movie.title							   
 ORDER BY MAX(Rating.stars) - MIN(Rating.stars) desc, Movie.title;
+
+-- 9. Find the difference between the average rating of movies released before 1980 and the average rating of movies released after 1980
+
+SELECT AVG(Av1.avg_rating) - AVG(Av2.avg_rating)
+FROM (
+  SELECT AVG(stars) AS avg_rating
+  FROM Movie
+  INNER JOIN Rating USING(mId)
+  WHERE year < 1980
+  GROUP BY movie.title
+) AS Av1, (
+  SELECT AVG(stars) AS avg_rating
+  FROM Movie
+  INNER JOIN Rating USING(mId)
+  WHERE year > 1980
+  GROUP BY movie.title
+) AS Av2
