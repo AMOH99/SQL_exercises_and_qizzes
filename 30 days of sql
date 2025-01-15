@@ -1,0 +1,19 @@
+Retrieve all customers who live in cities starting with 'S' 
+
+-List all orders where the required date is later than the shipment date
+
+ --Show the number of products in each category per brand
+
+ --Retrieve all products with a model year not equal to 2016 
+
+--List all customers who have purchased a product from the 'Mountain Bikes' category 
+
+--Find the total revenue from orders shipped before the required date 
+
+--Retrieve revenue made by each staff
+
+--Find all products with list price greater than the average list price 
+
+--Show the number of orders placed in each month of 2017
+
+-- Retrieve all customers who do not have an email address
